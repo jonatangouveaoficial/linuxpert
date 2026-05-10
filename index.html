@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Linuxpert Apps</title>
+  <title>Linuxpert Apps - Aplicativos modernos para Linux</title>
 
   <style>
     :root {
-      --bg: #f4f4f6;
-      --header: #ffffff;
-      --card: #ffffff;
-      --text: #101010;
-      --muted: #6b7280;
-      --blue: #1976d2;
-      --blue-dark: #0d47a1;
+      --bg: #f7f8fc;
+      --white: #ffffff;
+      --dark: #101828;
+      --text: #344054;
+      --muted: #667085;
+      --blue: #2563eb;
+      --blue2: #0ea5e9;
+      --light-blue: #eff6ff;
       --border: #e5e7eb;
-      --shadow: rgba(0, 0, 0, 0.10);
+      --shadow: rgba(16, 24, 40, 0.10);
+      --radius: 28px;
     }
 
     * {
@@ -30,9 +32,10 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Inter, Arial, Helvetica, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--dark);
+      overflow-x: hidden;
     }
 
     a {
@@ -40,417 +43,709 @@
       color: inherit;
     }
 
-    .topbar {
-      width: 100%;
-      background: var(--header);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
     .container {
       width: min(1180px, 92%);
       margin: auto;
     }
 
+    .topbar {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
     .nav {
-      height: 72px;
+      height: 82px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
+      gap: 28px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       font-weight: 900;
-      font-size: 18px;
+      font-size: 22px;
+      color: var(--dark);
       white-space: nowrap;
     }
 
     .brand-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, #1976d2, #00a6ff);
       color: white;
-      font-size: 22px;
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.25);
     }
 
     .menu {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 28px;
+      color: var(--muted);
+      font-weight: 700;
       font-size: 15px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .menu a {
-      color: #111827;
-      transition: 0.2s;
     }
 
     .menu a:hover {
       color: var(--blue);
     }
 
-    .actions {
+    .nav-actions {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 22px;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 24px;
+      border-radius: 999px;
+      font-weight: 900;
+      transition: 0.25s;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      color: white;
+      box-shadow: 0 18px 36px rgba(37, 99, 235, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 45px rgba(37, 99, 235, 0.36);
+    }
+
+    .btn-light {
+      background: white;
+      color: var(--dark);
+      border-color: var(--border);
+      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.06);
+    }
+
+    .btn-light:hover {
+      transform: translateY(-3px);
+      border-color: rgba(37, 99, 235, 0.35);
     }
 
     .hero {
-      padding: 48px 0 36px;
+      position: relative;
+      padding: 90px 0 70px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 720px;
+      height: 720px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.18), transparent 65%);
+      top: -280px;
+      right: -220px;
+      z-index: 0;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 540px;
+      height: 540px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.16), transparent 65%);
+      bottom: -240px;
+      left: -180px;
+      z-index: 0;
     }
 
     .hero-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 0.7fr 0.7fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .featured {
-      min-height: 360px;
-      border-radius: 10px;
-      overflow: hidden;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.76)),
-        linear-gradient(135deg, #1976d2, #0d47a1);
       position: relative;
-      box-shadow: 0 10px 28px var(--shadow);
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .featured::before {
-      content: "LP";
-      position: absolute;
-      inset: 0;
+      z-index: 1;
       display: grid;
-      place-items: center;
-      font-size: 160px;
-      font-weight: 900;
-      color: rgba(255,255,255,0.16);
-      letter-spacing: -10px;
+      grid-template-columns: 1fr 0.95fr;
+      gap: 58px;
+      align-items: center;
     }
 
-    .featured-content {
-      position: relative;
-      z-index: 2;
-      padding: 28px;
-      color: white;
-    }
-
-    .tag {
+    .eyebrow {
       display: inline-flex;
-      padding: 6px 10px;
-      background: var(--blue);
-      color: white;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .featured h1 {
-      font-size: clamp(30px, 5vw, 46px);
-      line-height: 1.08;
-      max-width: 720px;
-      margin-bottom: 14px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.35);
-    }
-
-    .meta {
-      color: rgba(255,255,255,0.82);
-      font-size: 13px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
       align-items: center;
-    }
-
-    .side-posts {
-      display: grid;
-      gap: 24px;
-    }
-
-    .small-card,
-    .mini-card,
-    .app-card {
-      background: var(--card);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px var(--shadow);
-      border: 1px solid var(--border);
-      transition: 0.2s;
-    }
-
-    .small-card:hover,
-    .mini-card:hover,
-    .app-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 28px rgba(0,0,0,0.14);
-    }
-
-    .thumb {
-      height: 150px;
-      background: linear-gradient(135deg, #111827, #1976d2);
-      display: grid;
-      place-items: center;
-      color: white;
-      font-size: 50px;
-      position: relative;
-    }
-
-    .thumb .thumb-label {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: rgba(0,0,0,0.55);
-      color: white;
-      font-size: 10px;
+      gap: 9px;
+      background: var(--light-blue);
+      color: var(--blue);
+      padding: 9px 15px;
+      border-radius: 999px;
       font-weight: 900;
-      padding: 5px 8px;
-      border-radius: 3px;
-      text-transform: uppercase;
+      margin-bottom: 24px;
+      font-size: 14px;
     }
 
-    .small-content {
-      padding: 16px;
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: 1.02;
+      letter-spacing: -2.8px;
+      margin-bottom: 26px;
+      color: var(--dark);
     }
 
-    .small-content h3 {
-      font-size: 18px;
-      line-height: 1.3;
-      margin-bottom: 8px;
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
-    .date {
-      font-size: 12px;
+    .hero p {
+      font-size: 20px;
+      line-height: 1.75;
       color: var(--muted);
+      max-width: 650px;
+      margin-bottom: 34px;
     }
 
-    .mini-list {
-      margin-top: 22px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .mini-card {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      align-items: center;
-    }
-
-    .mini-thumb {
-      height: 92px;
-      background: linear-gradient(135deg, #1976d2, #0d47a1);
-      display: grid;
-      place-items: center;
-      color: white;
-      font-size: 34px;
-    }
-
-    .mini-card h4 {
-      font-size: 16px;
-      line-height: 1.25;
-      padding: 0 12px;
-    }
-
-    .section {
-      padding: 36px 0;
-    }
-
-    .section-header {
+    .hero-buttons {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 22px;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
     }
 
-    .section-header h2 {
-      font-size: 24px;
-      font-weight: 900;
+    .hero-stats {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
     }
 
-    .section-header a {
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .stat span {
       color: var(--muted);
       font-weight: 700;
       font-size: 14px;
-      text-decoration: underline;
     }
 
-    .apps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px;
+    .dashboard-wrap {
+      position: relative;
     }
 
-    .app-card .thumb {
-      height: 155px;
-    }
-
-    .app-body {
-      padding: 16px;
-    }
-
-    .app-body h3 {
-      font-size: 19px;
-      line-height: 1.25;
-      margin-bottom: 10px;
-    }
-
-    .app-body p {
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 14px;
-      margin-bottom: 16px;
-    }
-
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding: 12px 14px;
-      background: var(--blue);
-      color: white;
-      border-radius: 8px;
-      font-weight: 900;
-      transition: 0.2s;
-    }
-
-    .download-btn:hover {
-      background: var(--blue-dark);
-    }
-
-    .about-box {
+    .dashboard {
       background: white;
       border: 1px solid var(--border);
-      box-shadow: 0 8px 22px var(--shadow);
-      border-radius: 12px;
-      padding: 32px;
+      border-radius: 34px;
+      box-shadow: 0 30px 80px rgba(16, 24, 40, 0.16);
+      padding: 18px;
+      transform: rotate(1deg);
+    }
+
+    .dashboard-inner {
+      background: #f8fafc;
+      border-radius: 26px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .dash-top {
+      height: 58px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #d0d5dd;
+    }
+
+    .dash-title {
+      font-weight: 900;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .dash-body {
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .dash-hero {
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      color: white;
+      padding: 24px;
+      border-radius: 22px;
+      min-height: 150px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dash-hero::after {
+      content: "🐧";
+      position: absolute;
+      right: 20px;
+      bottom: -14px;
+      font-size: 96px;
+      opacity: 0.22;
+    }
+
+    .dash-hero h3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      max-width: 300px;
+    }
+
+    .dash-hero p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.82);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .dash-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      align-items: center;
+      gap: 14px;
     }
 
-    .about-box h2 {
-      font-size: 32px;
-      margin-bottom: 14px;
+    .dash-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
     }
 
-    .about-box p {
-      color: var(--muted);
-      line-height: 1.8;
-      font-size: 16px;
-    }
-
-    .badges {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    .badge {
-      background: #e8f2ff;
-      color: var(--blue-dark);
-      padding: 9px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    .github-panel {
-      background:
-        linear-gradient(135deg, rgba(25,118,210,0.96), rgba(13,71,161,0.96));
-      border-radius: 14px;
-      color: white;
-      padding: 36px;
-      text-align: center;
-      box-shadow: 0 10px 28px var(--shadow);
-    }
-
-    .github-panel h2 {
-      font-size: 32px;
+    .dash-card .icon {
+      font-size: 30px;
       margin-bottom: 12px;
     }
 
-    .github-panel p {
-      color: rgba(255,255,255,0.86);
-      max-width: 680px;
-      margin: 0 auto 24px;
+    .dash-card h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .dash-card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      display: block;
+    }
+
+    .floating-card {
+      position: absolute;
+      left: -28px;
+      bottom: 44px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 16px 18px;
+      box-shadow: 0 20px 50px rgba(16, 24, 40, 0.16);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .floating-card strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .floating-card span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    section {
+      padding: 82px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 48px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      margin-bottom: 18px;
+      color: var(--dark);
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 18px;
       line-height: 1.7;
     }
 
-    .github-buttons {
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 34px;
+      box-shadow: 0 14px 36px rgba(16, 24, 40, 0.06);
+      transition: 0.25s;
+    }
+
+    .feature:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 22px 50px rgba(16, 24, 40, 0.10);
+      border-color: rgba(37, 99, 235, 0.28);
+    }
+
+    .feature-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: var(--light-blue);
+      color: var(--blue);
+      font-size: 32px;
+      margin-bottom: 22px;
+    }
+
+    .feature h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .feature p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .split {
+      background: white;
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .image-panel {
+      background: linear-gradient(135deg, #dbeafe, #f0f9ff);
+      border-radius: 34px;
+      padding: 28px;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #dbeafe;
+    }
+
+    .image-panel::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      background: rgba(37, 99, 235, 0.12);
+      border-radius: 50%;
+      right: -80px;
+      top: -70px;
+    }
+
+    .image-panel-card {
+      position: relative;
+      z-index: 1;
+      background: white;
+      border-radius: 28px;
+      padding: 24px;
+      width: 100%;
+      box-shadow: 0 22px 60px rgba(16, 24, 40, 0.12);
+    }
+
+    .app-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fafc;
+      margin-bottom: 12px;
+    }
+
+    .app-row strong {
+      display: block;
+      color: var(--dark);
+    }
+
+    .app-row span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .split-content .eyebrow {
+      margin-bottom: 18px;
+    }
+
+    .split-content h2 {
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      margin-bottom: 22px;
+    }
+
+    .split-content p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .check {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .check b {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #dcfce7;
+      color: #16a34a;
+      font-size: 14px;
+    }
+
+    .downloads {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 35%),
+        #f8fafc;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .download-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 16px 40px rgba(16, 24, 40, 0.07);
+      display: flex;
+      flex-direction: column;
+      min-height: 330px;
+      transition: 0.25s;
+    }
+
+    .download-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 55px rgba(16, 24, 40, 0.12);
+    }
+
+    .download-card .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .download-icon {
+      width: 66px;
+      height: 66px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      box-shadow: 0 16px 32px rgba(37, 99, 235, 0.22);
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--light-blue);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .download-card h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .download-card p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .download-card .btn {
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .cta {
+      padding: 88px 0;
+    }
+
+    .cta-box {
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.24), transparent 30%),
+        linear-gradient(135deg, #1d4ed8, #0284c7);
+      border-radius: 38px;
+      padding: 64px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 30px 80px rgba(37, 99, 235, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::after {
+      content: "🐧";
+      position: absolute;
+      right: 45px;
+      bottom: -30px;
+      font-size: 150px;
+      opacity: 0.12;
+    }
+
+    .cta-box h2 {
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-box p {
+      color: rgba(255,255,255,0.82);
+      max-width: 720px;
+      margin: 0 auto 30px;
+      line-height: 1.7;
+      font-size: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-buttons {
       display: flex;
       justify-content: center;
       gap: 14px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
-    .github-btn {
-      padding: 13px 20px;
-      background: white;
-      color: var(--blue-dark);
-      border-radius: 8px;
-      font-weight: 900;
-    }
-
-    .github-btn.dark {
-      background: rgba(0,0,0,0.25);
+    .footer {
+      background: #0f172a;
       color: white;
-      border: 1px solid rgba(255,255,255,0.3);
+      padding: 58px 0 28px;
     }
 
-    footer {
-      margin-top: 36px;
-      padding: 30px 0;
-      background: white;
-      border-top: 1px solid var(--border);
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 42px;
+    }
+
+    .footer h3 {
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+
+    .footer p,
+    .footer a {
+      color: rgba(255,255,255,0.70);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .footer a:hover {
+      color: white;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 24px;
+      color: rgba(255,255,255,0.62);
       text-align: center;
-      color: var(--muted);
       font-size: 14px;
     }
 
-    footer strong {
-      color: #111827;
-    }
+    @media (max-width: 1050px) {
+      .menu {
+        display: none;
+      }
 
-    @media (max-width: 1000px) {
-      .hero-grid {
+      .hero-grid,
+      .split-grid {
         grid-template-columns: 1fr;
       }
 
-      .side-posts {
-        grid-template-columns: 1fr 1fr;
+      .dashboard {
+        transform: none;
       }
 
-      .apps-grid {
+      .features-grid,
+      .download-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .about-box {
-        grid-template-columns: 1fr;
-      }
-
-      .menu {
-        gap: 14px;
-        font-size: 13px;
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
       }
     }
 
@@ -458,34 +753,52 @@
       .nav {
         height: auto;
         padding: 18px 0;
-        flex-direction: column;
-      }
-
-      .menu {
-        justify-content: center;
         flex-wrap: wrap;
       }
 
-      .hero {
-        padding-top: 28px;
+      .nav-actions {
+        width: 100%;
       }
 
-      .side-posts,
-      .mini-list,
-      .apps-grid {
+      .nav-actions .btn {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 54px 0;
+      }
+
+      .hero h1 {
+        letter-spacing: -1.5px;
+      }
+
+      .hero-buttons,
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-grid {
+        text-align: center;
+      }
+
+      .floating-card {
+        display: none;
+      }
+
+      .dash-grid,
+      .features-grid,
+      .download-grid,
+      .footer-grid {
         grid-template-columns: 1fr;
       }
 
-      .featured {
-        min-height: 320px;
+      .cta-box {
+        padding: 42px 24px;
       }
 
-      .featured h1 {
-        font-size: 31px;
-      }
-
-      .mini-card {
-        grid-template-columns: 86px 1fr;
+      .section-head h2,
+      .split-content h2 {
+        letter-spacing: -1px;
       }
     }
   </style>
@@ -495,311 +808,352 @@
 
   <header class="topbar">
     <div class="container nav">
+
       <a href="#inicio" class="brand">
         <span class="brand-icon">🐧</span>
-        <span>LINUXPERT APPS</span>
+        <span>Linuxpert Apps</span>
       </a>
 
       <nav class="menu">
-        <a href="#inicio">Home</a>
-        <a href="#apps">Apps</a>
-        <a href="#downloads">Downloads</a>
+        <a href="#inicio">Início</a>
+        <a href="#recursos">Recursos</a>
         <a href="#sobre">Sobre</a>
+        <a href="#downloads">Downloads</a>
         <a href="#github">GitHub</a>
       </nav>
 
-      <div class="actions">
-        <span>☀️</span>
-        <span>🔍</span>
+      <div class="nav-actions">
+        <a class="btn btn-primary" href="#downloads">Baixar agora</a>
       </div>
+
     </div>
   </header>
 
   <main id="inicio">
 
     <section class="hero">
-      <div class="container">
+      <div class="container hero-grid">
 
-        <div class="hero-grid">
-
-          <a class="featured" href="#downloads">
-            <div class="featured-content">
-              <span class="tag">Linux</span>
-              <h1>Linuxpert Apps — aplicativos modernos para Linux</h1>
-              <div class="meta">
-                <span>by 🐧 Linuxpert</span>
-                <span>•</span>
-                <span>Projeto Open Source</span>
-              </div>
-            </div>
-          </a>
-
-          <div class="side-posts">
-            <a class="small-card" href="#downloads">
-              <div class="thumb">
-                <span class="thumb-label">Software</span>
-                🎬
-              </div>
-              <div class="small-content">
-                <h3>Conversor de Vídeo para Linux</h3>
-                <div class="date">Baixar agora</div>
-              </div>
-            </a>
-
-            <a class="small-card" href="#downloads">
-              <div class="thumb">
-                <span class="thumb-label">Áudio</span>
-                🎵
-              </div>
-              <div class="small-content">
-                <h3>Conversor de Áudio Linuxpert</h3>
-                <div class="date">Baixar agora</div>
-              </div>
-            </a>
+        <div>
+          <div class="eyebrow">
+            ✨ Projeto Linuxpert Apps
           </div>
 
-          <div class="side-posts">
-            <a class="small-card" href="#downloads">
-              <div class="thumb">
-                <span class="thumb-label">Sistema</span>
-                ⚙️
-              </div>
-              <div class="small-content">
-                <h3>Upgrade GRUB para corrigir dual boot</h3>
-                <div class="date">Baixar agora</div>
-              </div>
-            </a>
+          <h1>
+            Aplicativos modernos para deixar o <span>Linux mais fácil</span>
+          </h1>
 
-            <a class="small-card" href="#downloads">
-              <div class="thumb">
-                <span class="thumb-label">UEFI</span>
-                🔁
-              </div>
-              <div class="small-content">
-                <h3>BIOS Reboot: reinicie direto para BIOS</h3>
-                <div class="date">Baixar agora</div>
-              </div>
-            </a>
-          </div>
-
-        </div>
-
-        <div class="mini-list">
-          <a class="mini-card" href="#downloads">
-            <div class="mini-thumb">🧹</div>
-            <h4>Limpador de Sistema Linuxpert</h4>
-          </a>
-
-          <a class="mini-card" href="#downloads">
-            <div class="mini-thumb">📦</div>
-            <h4>Instalador de Pacotes .DEB</h4>
-          </a>
-
-          <a class="mini-card" href="#downloads">
-            <div class="mini-thumb">📁</div>
-            <h4>Instalador de AppImage</h4>
-          </a>
-
-          <a class="mini-card" href="#downloads">
-            <div class="mini-thumb">🧰</div>
-            <h4>Gerenciador de Aplicativos Linux</h4>
-          </a>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section" id="apps">
-      <div class="container">
-        <div class="section-header">
-          <h2>Linuxpert Apps</h2>
-          <a href="#downloads">Ver downloads</a>
-        </div>
-
-        <div class="apps-grid">
-
-          <article class="app-card">
-            <div class="thumb">
-              <span class="thumb-label">Vídeo</span>
-              🎬
-            </div>
-            <div class="app-body">
-              <h3>Conversor de Vídeo</h3>
-              <p>Converta vídeos em vários formatos com uma interface gráfica simples e moderna.</p>
-              <a class="download-btn" href="#downloads">Ver download</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">
-              <span class="thumb-label">Áudio</span>
-              🎵
-            </div>
-            <div class="app-body">
-              <h3>Conversor de Áudio</h3>
-              <p>Transforme arquivos de áudio para formatos populares usando ferramentas livres.</p>
-              <a class="download-btn" href="#downloads">Ver download</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">
-              <span class="thumb-label">Imagem</span>
-              🖼️
-            </div>
-            <div class="app-body">
-              <h3>Conversor de Imagem</h3>
-              <p>Converta imagens no Linux de forma prática, rápida e organizada.</p>
-              <a class="download-btn" href="#downloads">Ver download</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">
-              <span class="thumb-label">GRUB</span>
-              ⚙️
-            </div>
-            <div class="app-body">
-              <h3>Upgrade GRUB</h3>
-              <p>Atualize e corrija o GRUB, especialmente em computadores com dual boot.</p>
-              <a class="download-btn" href="#downloads">Ver download</a>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="downloads">
-      <div class="container">
-        <div class="section-header">
-          <h2>Downloads</h2>
-          <a href="#github">GitHub</a>
-        </div>
-
-        <div class="apps-grid">
-
-          <article class="app-card">
-            <div class="thumb">🎬</div>
-            <div class="app-body">
-              <h3>Conversor de Vídeo</h3>
-              <p>Baixe o conversor de vídeo do Linuxpert Apps.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">🎵</div>
-            <div class="app-body">
-              <h3>Conversor de Áudio</h3>
-              <p>Baixe o conversor de áudio para Linux.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">🖼️</div>
-            <div class="app-body">
-              <h3>Conversor de Imagem</h3>
-              <p>Baixe o conversor de imagens Linuxpert.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">⚙️</div>
-            <div class="app-body">
-              <h3>Upgrade GRUB</h3>
-              <p>Baixe a ferramenta para atualizar e corrigir o GRUB.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">🔁</div>
-            <div class="app-body">
-              <h3>BIOS Reboot</h3>
-              <p>Reinicie direto para BIOS/UEFI sem procurar tecla de atalho.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">🧹</div>
-            <div class="app-body">
-              <h3>Limpador de Sistema</h3>
-              <p>Baixe o limpador de sistema para Linux.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">📦</div>
-            <div class="app-body">
-              <h3>Instalador DEB</h3>
-              <p>Instale pacotes .deb usando uma interface gráfica amigável.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-          <article class="app-card">
-            <div class="thumb">📁</div>
-            <div class="app-body">
-              <h3>Instalador AppImage</h3>
-              <p>Organize e instale aplicativos AppImage no Linux.</p>
-              <a class="download-btn" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="sobre">
-      <div class="container">
-        <div class="about-box">
-          <div>
-            <h2>Sobre o Linuxpert Apps</h2>
-            <p>
-              O Linuxpert Apps é um projeto criado por Jonatan, do canal Linuxpert,
-              com foco em desenvolver aplicativos gráficos, simples e úteis para Linux.
-              A ideia é facilitar tarefas do dia a dia com programas bonitos,
-              leves e fáceis de usar.
-            </p>
-
-            <div class="badges">
-              <span class="badge">🐧 Linux</span>
-              <span class="badge">💻 Python</span>
-              <span class="badge">🎨 GTK</span>
-              <span class="badge">💙 Open Source</span>
-            </div>
-          </div>
-
-          <div class="featured" style="min-height: 280px;">
-            <div class="featured-content">
-              <span class="tag">Linuxpert</span>
-              <h1 style="font-size: 36px;">Programas para deixar o Linux mais fácil</h1>
-              <div class="meta">
-                <span>Linux • Software Livre • Open Source</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="github">
-      <div class="container">
-        <div class="github-panel">
-          <h2>Projeto no GitHub</h2>
           <p>
-            Acompanhe o desenvolvimento, veja o código-fonte, baixe os programas
-            e apoie o projeto deixando uma estrela no repositório.
+            O Linuxpert Apps reúne ferramentas gráficas criadas para facilitar tarefas
+            do dia a dia no Linux: conversão de arquivos, gerenciamento do sistema,
+            instalação de pacotes, correção do GRUB e muito mais.
           </p>
 
-          <div class="github-buttons">
-            <a class="github-btn" href="https://github.com/jonatangouveaoficial/linuxpert" target="_blank">⭐ Abrir GitHub</a>
-            <a class="github-btn dark" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Downloads</a>
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="#downloads">⬇️ Baixar aplicativos</a>
+            <a class="btn btn-light" href="#recursos">Ver recursos</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>10+</strong>
+              <span>Aplicativos</span>
+            </div>
+
+            <div class="stat">
+              <strong>100%</strong>
+              <span>Feito para Linux</span>
+            </div>
+
+            <div class="stat">
+              <strong>Open</strong>
+              <span>Source</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-wrap">
+          <div class="dashboard">
+            <div class="dashboard-inner">
+
+              <div class="dash-top">
+                <div class="dots">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <div class="dash-title">Linuxpert Apps</div>
+              </div>
+
+              <div class="dash-body">
+                <div class="dash-hero">
+                  <h3>Central de aplicativos Linux</h3>
+                  <p>Ferramentas simples, bonitas e funcionais para o seu sistema.</p>
+                </div>
+
+                <div class="dash-grid">
+                  <div class="dash-card">
+                    <div class="icon">🎬</div>
+                    <h4>Conversor</h4>
+                    <span>Vídeo, áudio e imagem.</span>
+                  </div>
+
+                  <div class="dash-card">
+                    <div class="icon">⚙️</div>
+                    <h4>Sistema</h4>
+                    <span>GRUB, BIOS e limpeza.</span>
+                  </div>
+
+                  <div class="dash-card">
+                    <div class="icon">📦</div>
+                    <h4>Instalação</h4>
+                    <span>DEB, AppImage e apps.</span>
+                  </div>
+
+                  <div class="dash-card">
+                    <div class="icon">💙</div>
+                    <h4>Open Source</h4>
+                    <span>Linux, liberdade e comunidade.</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="floating-card">
+            <div class="download-icon" style="width:48px;height:48px;border-radius:16px;font-size:24px;">⬇️</div>
+            <div>
+              <strong>Download disponível</strong>
+              <span>Baixe pelo GitHub</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="recursos">
+      <div class="container">
+
+        <div class="section-head">
+          <div class="eyebrow">🚀 Recursos</div>
+          <h2>Tudo em um visual moderno e simples</h2>
+          <p>
+            Programas pensados para quem quer resolver tarefas no Linux sem complicação,
+            usando uma interface gráfica bonita, organizada e fácil de entender.
+          </p>
+        </div>
+
+        <div class="features-grid">
+
+          <div class="feature">
+            <div class="feature-icon">🎨</div>
+            <h3>Interface moderna</h3>
+            <p>
+              Visual limpo, organizado e pensado para se adaptar melhor ao uso diário no Linux.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <h3>Leve e direto</h3>
+            <p>
+              Ferramentas objetivas, feitas para abrir rápido e executar tarefas sem enrolação.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">🐧</div>
+            <h3>Feito para Linux</h3>
+            <p>
+              Aplicativos criados com foco em distribuições Linux e ferramentas livres.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">📦</div>
+            <h3>Instalação fácil</h3>
+            <p>
+              Opções para instalar, organizar e gerenciar pacotes e aplicativos.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">🧰</div>
+            <h3>Utilitários úteis</h3>
+            <p>
+              Conversores, limpadores, ferramentas de GRUB, BIOS/UEFI e muito mais.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">💙</div>
+            <h3>Open source</h3>
+            <p>
+              Projeto criado com amor pelo Linux, software livre e comunidade open source.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="split" id="sobre">
+      <div class="container split-grid">
+
+        <div class="image-panel">
+          <div class="image-panel-card">
+            <div class="app-row">
+              <div>
+                <strong>Conversor de Vídeo</strong>
+                <span>Converta vídeos com facilidade</span>
+              </div>
+              <span>🎬</span>
+            </div>
+
+            <div class="app-row">
+              <div>
+                <strong>Upgrade GRUB</strong>
+                <span>Corrija dual boot no Linux</span>
+              </div>
+              <span>⚙️</span>
+            </div>
+
+            <div class="app-row">
+              <div>
+                <strong>BIOS Reboot</strong>
+                <span>Reinicie direto para BIOS/UEFI</span>
+              </div>
+              <span>🔁</span>
+            </div>
+
+            <div class="app-row">
+              <div>
+                <strong>Limpador de Sistema</strong>
+                <span>Remova arquivos temporários</span>
+              </div>
+              <span>🧹</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-content">
+          <div class="eyebrow">🐧 Sobre o projeto</div>
+
+          <h2>Linux também merece aplicativos bonitos e fáceis de usar</h2>
+
+          <p>
+            O Linuxpert Apps nasceu para tornar tarefas comuns no Linux mais simples.
+            A ideia é criar programas gráficos que ajudem usuários iniciantes e avançados,
+            mantendo um visual moderno e uma experiência direta.
+          </p>
+
+          <div class="check-list">
+            <div class="check"><b>✓</b> Aplicativos gráficos para Linux</div>
+            <div class="check"><b>✓</b> Foco em facilidade de uso</div>
+            <div class="check"><b>✓</b> Projeto criado por Jonatan do canal Linuxpert</div>
+            <div class="check"><b>✓</b> Feito com amor pelo open source</div>
+          </div>
+
+          <a class="btn btn-primary" href="#downloads">Ver downloads</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="downloads" id="downloads">
+      <div class="container">
+
+        <div class="section-head">
+          <div class="eyebrow">⬇️ Downloads</div>
+          <h2>Baixe os aplicativos do Linuxpert Apps</h2>
+          <p>
+            Escolha o programa desejado e baixe diretamente pelo GitHub.
+            Troque os links abaixo pelos links reais de cada release.
+          </p>
+        </div>
+
+        <div class="download-grid">
+
+          <div class="download-card">
+            <div class="top">
+              <div class="download-icon">🎬</div>
+              <span class="badge">Vídeo</span>
+            </div>
+            <h3>Conversor de Vídeo</h3>
+            <p>Converta vídeos para vários formatos com interface simples e moderna.</p>
+            <a class="btn btn-primary" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
+          </div>
+
+          <div class="download-card">
+            <div class="top">
+              <div class="download-icon">🎵</div>
+              <span class="badge">Áudio</span>
+            </div>
+            <h3>Conversor de Áudio</h3>
+            <p>Converta arquivos de áudio para formatos populares no Linux.</p>
+            <a class="btn btn-primary" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
+          </div>
+
+          <div class="download-card">
+            <div class="top">
+              <div class="download-icon">🖼️</div>
+              <span class="badge">Imagem</span>
+            </div>
+            <h3>Conversor de Imagem</h3>
+            <p>Transforme imagens de forma prática, rápida e organizada.</p>
+            <a class="btn btn-primary" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
+          </div>
+
+          <div class="download-card">
+            <div class="top">
+              <div class="download-icon">⚙️</div>
+              <span class="badge">Sistema</span>
+            </div>
+            <h3>Upgrade GRUB</h3>
+            <p>Atualize e corrija o GRUB, especialmente em sistemas com dual boot.</p>
+            <a class="btn btn-primary" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
+          </div>
+
+          <div class="download-card">
+            <div class="top">
+              <div class="download-icon">🔁</div>
+              <span class="badge">UEFI</span>
+            </div>
+            <h3>BIOS Reboot</h3>
+            <p>Reinicie o computador direto para BIOS/UEFI sem procurar tecla de atalho.</p>
+            <a class="btn btn-primary" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
+          </div>
+
+          <div class="download-card">
+            <div class="top">
+              <div class="download-icon">🧹</div>
+              <span class="badge">Limpeza</span>
+            </div>
+            <h3>Limpador de Sistema</h3>
+            <p>Limpe arquivos temporários e ajude a manter seu Linux mais organizado.</p>
+            <a class="btn btn-primary" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Baixar</a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="cta" id="github">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Veja o projeto no GitHub</h2>
+          <p>
+            Acompanhe o desenvolvimento, baixe os programas, veja o código-fonte
+            e apoie o Linuxpert Apps deixando uma estrela no repositório.
+          </p>
+
+          <div class="cta-buttons">
+            <a class="btn btn-light" href="https://github.com/jonatangouveaoficial/linuxpert" target="_blank">⭐ Abrir GitHub</a>
+            <a class="btn btn-light" href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">⬇️ Releases</a>
           </div>
         </div>
       </div>
@@ -807,8 +1161,53 @@
 
   </main>
 
-  <footer>
-    Criado por <strong>Jonatan</strong> · Linuxpert Apps · Linux, liberdade e open source 🐧💙
+  <footer class="footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div>
+          <h3>🐧 Linuxpert Apps</h3>
+          <p>
+            Aplicativos modernos, simples e úteis para Linux.
+            Criado por Jonatan, do canal Linuxpert.
+          </p>
+        </div>
+
+        <div>
+          <h3>Projeto</h3>
+          <div class="footer-links">
+            <a href="#inicio">Início</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#sobre">Sobre</a>
+          </div>
+        </div>
+
+        <div>
+          <h3>Downloads</h3>
+          <div class="footer-links">
+            <a href="#downloads">Aplicativos</a>
+            <a href="https://github.com/jonatangouveaoficial/linuxpert/releases" target="_blank">Releases</a>
+            <a href="https://github.com/jonatangouveaoficial/linuxpert" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <div>
+          <h3>Linuxpert</h3>
+          <div class="footer-links">
+            <a href="#">Canal Linuxpert</a>
+            <a href="#">Linux</a>
+            <a href="#">Open Source</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        © Linuxpert Apps · Criado por Jonatan · Linux, liberdade e open source 🐧💙
+      </div>
+
+    </div>
   </footer>
 
 </body>
